@@ -1,0 +1,13 @@
+{
+    "[csharp]": {
+        "editor.maxTokenizationLineLength": 2500,
+        "editor.formatOnSave": true,
+        "editor.codeActionsOnSave": {
+            "source.removeUnusedImports": "explicit"
+        },
+    },
+    "cSpell.words": [
+        "appsettings"
+    ],
+    "dotnet.server.useOmnisharp": true
+}
