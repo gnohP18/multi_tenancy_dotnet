@@ -5,7 +5,7 @@ namespace tenant_service.API.Controllers.Tenant
 {
     [ApiController]
     [Tags("User")]
-    [Route("user")]
+    [Route("users")]
     [ApiExplorerSettings(GroupName = "tenant")]
     public class UserController : ControllerBase
     {
@@ -16,10 +16,10 @@ namespace tenant_service.API.Controllers.Tenant
             _userService = userService;
         }
 
-        [HttpGet("test")]
+        [HttpGet("")]
         public async Task<ActionResult<List<object>>> GetListUser()
         {
-            return Ok(await _userService.GetUserListDTO());
+            return Ok(await _userService.GetUserListService());
         }
     }
 }

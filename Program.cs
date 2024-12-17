@@ -5,6 +5,7 @@ using tenant_service.API.IOC;
 using tenant_service.Api.Middlewares;
 using tenant_service.Infrastructure.Database;
 using tenant_service.Shared;
+using StackExchange.Redis;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -48,6 +49,9 @@ services.AddDbContext<LandlordContext>(
         .EnableSensitiveDataLogging()
         .EnableDetailedErrors()
 );
+//------------------------------ Database Redis ----------------------------------//
+var redisConnectionString = builder.Configuration["RedisConnectionString"] ?? "localhost";
+services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect(redisConnectionString));
 
 var app = builder.Build();
 app.UseRouting();

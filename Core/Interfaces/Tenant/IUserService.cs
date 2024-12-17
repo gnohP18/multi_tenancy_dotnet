@@ -8,6 +8,6 @@ namespace tenant_service.Core.Interfaces.Tenant
         /// Get list user
         /// </summary>
         /// <returns></returns>
-        Task<List<UserListDTO>> GetUserListDTO();
+        Task<List<UserListDTO>> GetUserListService();
     }
 }

@@ -6,6 +6,10 @@
 # dotenv files
 .env
 
+## Data
+/Deployment/mysql
+/Deployment/redis
+
 # User-specific files
 *.rsuser
 *.suo

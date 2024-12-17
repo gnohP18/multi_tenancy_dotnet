@@ -45,9 +45,6 @@ namespace tenant_service.API.IOC
                     .EnableDetailedErrors();
             });
 
-            //------------------------------ Database Redis -----------------------//
-            services.AddSingleton<IConnectionMultiplexer>(ConnectionMultiplexer.Connect("localhost"));
-
             // Add your mapping service here
             //---------------------------- Landlord ----------------------------//
             // services.AddSingleton<ITokenService, TokenService>();
@@ -56,6 +53,5 @@ namespace tenant_service.API.IOC
             //---------------------------- Tenant -----------------------------//
             services.AddScoped<IUserService, UserService>();
         }
-
     }
 }

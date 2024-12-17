@@ -19,7 +19,7 @@ namespace tenant_service.Core.Interfaces.Tenant
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper)); ;
         }
 
-        public async Task<List<UserListDTO>> GetUserListDTO()
+        public async Task<List<UserListDTO>> GetUserListService()
         {
             var result = await _tenantContext.Users
                 .AsQueryable()

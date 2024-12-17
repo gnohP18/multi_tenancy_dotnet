@@ -1,0 +1,79 @@
+version: '3'
+
+services:
+  # Nginx Service
+  nginx:
+    image: nginx
+    container_name: nginx
+    volumes:
+      - ./Deployment/nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - .:/var/www/html
+    ports:
+      - 80:80
+      # - "443:443"
+    restart: always
+    depends_on:
+      - tenant-service
+      - database-redis
+      - database-mysql
+    networks:
+      - app-network
+
+  # Mysql Database
+  database-mysql:
+    image: mysql:latest
+    container_name: mysql
+    restart: unless-stopped
+    volumes:
+      - ./Deployment/mysql/.data/db:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - "3306:${MYSQL_PORT}"
+    networks:
+      - app-network
+
+  # Redis Database
+  database-redis:
+    image: redis:latest
+    container_name: redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./Deployment/redis/.data/db:/root/redis
+      - ./Deployment/redis/redis.conf:/usr/local/etc/redis/redis.conf
+    environment:
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
+      - REDIS_PORT=${REDIS_PORT}
+      - REDIS_DATABASES=${REDIS_DATABASES}
+    networks:
+      - app-network
+
+  redis_insight:
+    image: redislabs/redisinsight:1.14.0
+    container_name: redis_insight_test
+    restart: unless-stopped
+    ports:
+      - 8001:${REDIS_INSIGHT_PORT}
+    volumes:
+      - ./Deployment/redis_insight/.data/db:/db
+    networks:
+      - app-network
+
+  tenant-service:
+    container_name: tenant-service
+    build:
+      context: .
+      dockerfile: ./Deployment/Dockerfile
+    restart: unless-stopped
+    ports:
+      - 9001:80
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
